@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Db.Db
+namespace DbSQLite.Db
 {
     class FillQuizSystem
     {

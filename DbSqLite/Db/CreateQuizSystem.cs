@@ -1,6 +1,6 @@
 ﻿using System.Data.SQLite;
 
-namespace Db.Db
+namespace DbSQLite.Db
 {
     class CreateQuizSystem
     {
