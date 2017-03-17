@@ -1,10 +1,14 @@
-﻿using System;
-
-namespace DbSQLite.Db
+﻿namespace DbSQLite.Db
 {
     class FillQuizSystem
     {
-        public void FillQuestionTable()
+        public static void CreateQuestionTable()
+        {
+            var sql = "create table questions (questionNumber int, questionText varchar(50))";
+            DbConnection.ConnectNonQuery(sql);
+        }
+
+        public static void FillQuestionTable()
         {
             var sql = "insert into questions (questionNumber, questionText) values (1, 'What do we do?')";
             DbConnection.ConnectNonQuery(sql);

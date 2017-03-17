@@ -21,14 +21,13 @@ namespace DbSQLite
 
             // Option 2
             string path = "QuizSystem.sqlite";
-
             const int milliseconds = 2000;
 
-            //if (!File.Exists(path))
-            //    CreateQuizSystem.CreateQuizSystemDb();
+            Console.WriteLine(File.Exists(path) ? "File Exists\n" : "File Does Not Exist, one moment please.");
 
-            Console.WriteLine(File.Exists(path) ? "File Exists\n" : "File Does Not Exist");
-            
+            if (!File.Exists(path))
+                CreateQuizSystem.CreateQuizSystemDb();
+          
             Console.WriteLine("Questions retrieved from Db\n");
             var sql = "SELECT * FROM Questions";
             DbConnection.ConnectDatareader(sql);
