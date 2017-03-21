@@ -28,6 +28,7 @@ namespace DbSQLite.Db
             SQLiteDataReader dataReader = command.ExecuteReader();
             while (dataReader.Read())
                 Console.WriteLine("Question " + dataReader["questionNumber"] + ".\tResponse: " + dataReader["optionSelected"]);
+            _dbConnection.Close();
         }
     }
 }
