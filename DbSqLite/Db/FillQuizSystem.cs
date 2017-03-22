@@ -1,13 +1,9 @@
-﻿namespace DbSQLite.Db
+﻿using System.Data.SQLite;
+
+namespace DbSQLite.Db
 {
     class FillQuizSystem
     {
-        public static void CreateQuestionTable()
-        {
-            var sql = "create table Questions (questionNumber int, questionText varchar(50))";
-            DbConnection.ConnectNonQuery(sql);
-        }
-
         public static void CreateResponseTable()
         {
             var sql = "create table Response (userId int, name varchar(30), email varchar(40))";
@@ -20,15 +16,9 @@
             DbConnection.ConnectNonQuery(sql);
         }
 
-        public static void FillQuestionTable()
+        public static void InsertToUserResponse(int id, string name, string email)
         {
-            var sql = "insert into questions (questionNumber, questionText) values (1, 'What do we do?')";
-            DbConnection.ConnectNonQuery(sql);
-
-            sql = "insert into questions (questionNumber, questionText) values (2, 'Are you interested in a career with Aspen grove?')";
-            DbConnection.ConnectNonQuery(sql);
-
-            sql = "insert into questions (questionNumber, questionText) values (3, 'What area are you interested in?')";
+            var sql = "insert into UserResponse (userId, name, email) values (" + id + ", '" + name + "', '" + email + "')";
             DbConnection.ConnectNonQuery(sql);
         }
 
@@ -38,10 +28,10 @@
             DbConnection.ConnectNonQuery(sql);
         }
 
-        public static void SelectResponses(int id)
+        public static SQLiteDataReader SelectResponses(int id)
         {
             var sql = "select * from ResponseOption where UserId = " + id;
-            DbConnection.ConnectDatareader(sql);
+            return DbConnection.ConnectDataReader(sql);
         }
     }
 }

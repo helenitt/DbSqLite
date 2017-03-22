@@ -8,8 +8,6 @@ namespace DbSQLite.Db
         {
             SQLiteConnection.CreateFile("QuizSystem.sqlite");
 
-            FillQuizSystem.CreateQuestionTable();
-            FillQuizSystem.FillQuestionTable();
             FillQuizSystem.CreateResponseTable();
             FillQuizSystem.CreateResponseOptionTable();
         }
