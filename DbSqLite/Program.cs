@@ -18,11 +18,14 @@ namespace DbSQLite
             if (!File.Exists(path))
                 CreateQuizSystem.CreateQuizSystemDb();
 
-            var user = new UserResponse { UserId = 19 };
-            //var user = new UserResponse();
-            //var nextId = FillQuizSystem.GetNextId();
-            //user.UserId = nextId;
-            
+           // var user = new UserResponse { UserId = 19 };
+
+            var user = new UserResponse();
+            //FillQuizSystem.GetNextId();
+            var nextId = FillQuizSystem.GetNextId();
+            user.UserId = nextId;
+            Console.WriteLine("\nnextId: " + nextId);
+
             Console.WriteLine("\nQuestions retrieved from JSON string\n");
             const string json = "[ { \"questionNumber\": 1, \"text\": \"What do we do?\", \"answers\": [ { \"option\" : \"g\", \"message\": \"No, We're not gardeners\", \"correct\" : false }, { \"option\" : \"ss\", \"message\": \"Correct Answer\", \"correct\" : true }, { \"option\" : \"Sheltered Accommodation for the Elderly\", \"message\": \"No, No accommodation here!\", \"correct\" : false } ], \"answerText\": \"Aspen Grove builds Property Management Software Solutions\" }, { \"questionNumber\": 2, \"text\": \"Are you interested in a career with Aspen Grove?\", \"answers\": [ { \"option\" : \"y\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"n\", \"message\": \"OK, but...\", \"correct\" : false }, { \"option\" : \"I'm only here for the chocolate biscuits!\", \"message\": \"Have a sweet instead!\", \"correct\" : false } ], \"answerText\": \"This is a perfect opportunity to apply if you are interested\" }, { \"questionNumber\": 3, \"text\": \"What field are you interested in?\", \"answers\": [ { \"option\" : \"dev\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"ba\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"qa\", \"message\": \"Excellent\", \"correct\" : true } ], \"answerText\": \"We are presently recruiting for Development, QA, BA, Infrastructure/Networking, DB, PM, Tech Lead, Tech Support\" }]";
             var questions = JsonConvert.DeserializeObject<Question[]>(json);

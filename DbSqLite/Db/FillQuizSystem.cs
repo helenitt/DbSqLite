@@ -30,10 +30,20 @@ namespace DbSQLite.Db
         public static int GetNextId()
         {
             const string sql = "select max(userId) from UserResponse";
+            int nextId;
             var dataReader = DbConnection.ConnectDatareader(sql);
-            var nextId = Convert.ToInt32(dataReader.Read());
+            dataReader.Read();
+            if (dataReader.IsDBNull(0))
+                nextId = 1;
+            else
+                nextId = Convert.ToInt32(dataReader.GetValue(0)) + 1;
             DbConnection.ConnectClose();
             return nextId;
+             
+            //var nextId = Convert.ToInt32(dataReader.Read());
+            //Console.WriteLine(nextId);
+            //DbConnection.ConnectClose();
+            //return nextId;
         }
 
         public static SQLiteDataReader SelectUserDetails(int id)
