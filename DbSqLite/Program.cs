@@ -11,6 +11,7 @@ namespace DbSQLite
     {
         public static void Main(string[] args)
         {
+            var user = new UserResponse { UserId = 19 }; 
             const string path = "QuizSystem.sqlite";
             const int milliseconds = 1000;
             
@@ -20,8 +21,6 @@ namespace DbSQLite
             Console.WriteLine("\nQuestions retrieved from JSON string\n");
             const string json = "[ { \"questionNumber\": 1, \"text\": \"What do we do?\", \"answers\": [ { \"option\" : \"g\", \"message\": \"No, We're not gardeners\", \"correct\" : false }, { \"option\" : \"ss\", \"message\": \"Correct Answer\", \"correct\" : true }, { \"option\" : \"Sheltered Accommodation for the Elderly\", \"message\": \"No, No accommodation here!\", \"correct\" : false } ], \"answerText\": \"Aspen Grove builds Property Management Software Solutions\" }, { \"questionNumber\": 2, \"text\": \"Are you interested in a career with Aspen Grove?\", \"answers\": [ { \"option\" : \"y\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"n\", \"message\": \"OK, but...\", \"correct\" : false }, { \"option\" : \"I'm only here for the chocolate biscuits!\", \"message\": \"Have a sweet instead!\", \"correct\" : false } ], \"answerText\": \"This is a perfect opportunity to apply if you are interested\" }, { \"questionNumber\": 3, \"text\": \"What field are you interested in?\", \"answers\": [ { \"option\" : \"dev\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"ba\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"qa\", \"message\": \"Excellent\", \"correct\" : true } ], \"answerText\": \"We are presently recruiting for Development, QA, BA, Infrastructure/Networking, DB, PM, Tech Lead, Tech Support\" }]";
             var questions = JsonConvert.DeserializeObject<Question[]>(json);
-
-            var user = new UserResponse { UserId = 10 };
 
             foreach (var question in questions)
             {
@@ -35,7 +34,7 @@ namespace DbSQLite
                 Console.WriteLine("\n");
                 var response = Console.ReadLine();
 
-                foreach (var answer in question.Answers)
+                foreach (var answer in question.Answers) // Change to LINQ-Expression
                 {
                     if (response == answer.Option)
                     {
@@ -48,10 +47,27 @@ namespace DbSQLite
                 Thread.Sleep(milliseconds);
             }
 
-            FillQuizSystem.SelectResponses(10);
-            // Console.WriteLine("\n\n" + json.text); // not a string must be a file.json or .js?
+            Console.WriteLine("Would you like to enter our competition? Just enter your name: ");
+            user.Name = Console.ReadLine();
+            Console.WriteLine("and your email: ");
+            user.Email = Console.ReadLine();
+            FillQuizSystem.InsertToUserResponse(user.UserId, user.Name, user.Email);
+            
+            Console.WriteLine("\n\nThank You " + user.Name);
 
-            Console.WriteLine("Press any key to exit");
+            Console.WriteLine("\n\nTest Data Retrieval\n");
+
+            var dataReader = FillQuizSystem.SelectResponses(user.UserId);
+            while (dataReader.Read())
+                Console.WriteLine("Question " + dataReader["questionNumber"] + ".\tResponse: " + dataReader["optionSelected"]);
+            DbConnection.ConnectClose();
+
+            var userReader = FillQuizSystem.SelectUserDetails(user.UserId);
+            userReader.Read();
+            Console.WriteLine("\n\nName: " + userReader["name"] + "\tEmail: " + userReader["email"]);
+            DbConnection.ConnectClose();
+
+            Console.WriteLine("\n\nPress any key to exit");
             Console.ReadKey();
         }
     }
