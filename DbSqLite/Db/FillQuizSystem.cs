@@ -1,4 +1,6 @@
-﻿namespace DbSQLite.Db
+﻿using System;
+using System.Data.SQLite;
+namespace DbSQLite.Db
 {
     static class FillQuizSystem
     {
@@ -25,10 +27,27 @@
             DbConnection.ConnectNonQuery(sql);
         }
 
-        public static void SelectResponses(int id)
+        public static int GetNextId()
         {
-            var sql = "select * from ResponseOption where UserId = " + id;
-            DbConnection.ConnectDatareader(sql);
+            const string sql = "select max(userId) from UserResponse";
+            var dataReader = DbConnection.ConnectDatareader(sql);
+            var nextId = Convert.ToInt32(dataReader.Read());
+            DbConnection.ConnectClose();
+            return nextId;
+        }
+
+        public static SQLiteDataReader SelectUserDetails(int id)
+        {
+            var sql = "select * from UserResponse where userId = " + id;
+            var dataReader = DbConnection.ConnectDatareader(sql);
+            return dataReader;
+        }
+
+        public static SQLiteDataReader SelectResponses(int id)
+        {
+            var sql = "select * from ResponseOption where userId = " + id;
+            var dataReader = DbConnection.ConnectDatareader(sql);
+            return dataReader;
         }
     }
 }

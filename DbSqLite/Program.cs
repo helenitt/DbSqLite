@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DbSQLite.Db;
 using Newtonsoft.Json;
 using System.Threading;
@@ -16,12 +17,15 @@ namespace DbSQLite
             
             if (!File.Exists(path))
                 CreateQuizSystem.CreateQuizSystemDb();
-          
+
+            var user = new UserResponse { UserId = 19 };
+            //var user = new UserResponse();
+            //var nextId = FillQuizSystem.GetNextId();
+            //user.UserId = nextId;
+            
             Console.WriteLine("\nQuestions retrieved from JSON string\n");
             const string json = "[ { \"questionNumber\": 1, \"text\": \"What do we do?\", \"answers\": [ { \"option\" : \"g\", \"message\": \"No, We're not gardeners\", \"correct\" : false }, { \"option\" : \"ss\", \"message\": \"Correct Answer\", \"correct\" : true }, { \"option\" : \"Sheltered Accommodation for the Elderly\", \"message\": \"No, No accommodation here!\", \"correct\" : false } ], \"answerText\": \"Aspen Grove builds Property Management Software Solutions\" }, { \"questionNumber\": 2, \"text\": \"Are you interested in a career with Aspen Grove?\", \"answers\": [ { \"option\" : \"y\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"n\", \"message\": \"OK, but...\", \"correct\" : false }, { \"option\" : \"I'm only here for the chocolate biscuits!\", \"message\": \"Have a sweet instead!\", \"correct\" : false } ], \"answerText\": \"This is a perfect opportunity to apply if you are interested\" }, { \"questionNumber\": 3, \"text\": \"What field are you interested in?\", \"answers\": [ { \"option\" : \"dev\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"ba\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"qa\", \"message\": \"Excellent\", \"correct\" : true } ], \"answerText\": \"We are presently recruiting for Development, QA, BA, Infrastructure/Networking, DB, PM, Tech Lead, Tech Support\" }]";
             var questions = JsonConvert.DeserializeObject<Question[]>(json);
-
-            var user = new UserResponse { UserId = 10 };
 
             foreach (var question in questions)
             {
@@ -35,23 +39,37 @@ namespace DbSQLite
                 Console.WriteLine("\n");
                 var response = Console.ReadLine();
 
-                foreach (var answer in question.Answers)
+                foreach (var answer in question.Answers.Where(answer => response == answer.Option))  // cuts out if (response == answer.Option)
                 {
-                    if (response == answer.Option)
-                    {
-                        Console.WriteLine(answer.Message);
-                        FillQuizSystem.InsertToResponseOption(user.UserId, question.QuestionNumber, response);
-                    }    
+                    Console.WriteLine(answer.Message);
+                    FillQuizSystem.InsertToResponseOption(user.UserId, question.QuestionNumber, response);
                 }
 
                 Console.WriteLine("\n{0}\n\n", question.AnswerText);
                 Thread.Sleep(milliseconds);
             }
 
-            FillQuizSystem.SelectResponses(10);
-            // Console.WriteLine("\n\n" + json.text); // not a string must be a file.json or .js?
+            Console.WriteLine("Would you like to enter our competition?\nJust enter your name: ");
+            user.Name = Console.ReadLine();
+            Console.WriteLine("and your email: ");
+            user.Email = Console.ReadLine();
+            FillQuizSystem.InsertToUserResponse(user.UserId, user.Name, user.Email);
+            
+            Console.WriteLine("\n\nThank You " + user.Name);
 
-            Console.WriteLine("Press any key to exit");
+            Console.WriteLine("\n\nTest Data Retrieval\n");
+
+            var dataReader = FillQuizSystem.SelectResponses(user.UserId);
+            while (dataReader.Read())
+                Console.WriteLine("Question " + dataReader["questionNumber"] + ".\tResponse: " + dataReader["optionSelected"]);
+            DbConnection.ConnectClose();
+
+            var userReader = FillQuizSystem.SelectUserDetails(user.UserId);
+            userReader.Read();
+            Console.WriteLine("\n\nName: " + userReader["name"] + "\tEmail: " + userReader["email"]);
+            DbConnection.ConnectClose();
+
+            Console.WriteLine("\n\nPress any key to exit");
             Console.ReadKey();
         }
     }

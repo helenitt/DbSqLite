@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 
 namespace DbSQLite.Db
 {
@@ -21,13 +20,16 @@ namespace DbSQLite.Db
             _dbConnection.Close();
         }
 
-        public static void ConnectDatareader(string sql)
+        public static SQLiteDataReader ConnectDatareader(string sql)
         {
             ConnectDb();
             var command = new SQLiteCommand(sql, _dbConnection);
-            SQLiteDataReader dataReader = command.ExecuteReader();
-            while (dataReader.Read())
-                Console.WriteLine("Question " + dataReader["questionNumber"] + ".\tResponse: " + dataReader["optionSelected"]);
+            var dataReader = command.ExecuteReader();
+            return dataReader;
+        }
+
+        public static void ConnectClose()
+        {
             _dbConnection.Close();
         }
     }
