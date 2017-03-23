@@ -18,11 +18,10 @@ namespace DbSQLite
                 CreateQuizSystem.CreateQuizSystemDb();
           
             Console.WriteLine("\nQuestions retrieved from JSON string\n");
-            const string json = "[ { \"questionNumber\": 1, \"text\": \"What do we do?\", \"answers\": [ { \"option\" : \"Gardening\", \"message\": \"No, We're not gardeners\", \"correct\" : false }, { \"option\" : \"Software Solutions\", \"message\": \"Correct Answer\", \"correct\" : true }, { \"option\" : \"Sheltered Accommodation for the Elderly\", \"message\": \"No, No accommodation here!\", \"correct\" : false } ], \"answerText\": \"Aspen Grove builds Property Management Software Solutions\" }, { \"questionNumber\": 2, \"text\": \"Are you interested in a career with Aspen Grove?\", \"answers\": [ { \"option\" : \"Yes\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"No\", \"message\": \"OK, but...\", \"correct\" : false }, { \"option\" : \"I'm only here for the chocolate biscuits!\", \"message\": \"Have a sweet instead!\", \"correct\" : false } ], \"answerText\": \"This is a perfect opportunity to apply if you are interested\" }, { \"questionNumber\": 3, \"text\": \"What field are you interested in?\", \"answers\": [ { \"option\" : \"Development\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"Business Analysis\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"Technical Support\", \"message\": \"Excellent\", \"correct\" : true } ], \"answerText\": \"We are presently recruiting for Development, QA, BA, Infrastructure/Networking, DB, PM, Tech Lead, Tech Support\" }]";
+            const string json = "[ { \"questionNumber\": 1, \"text\": \"What do we do?\", \"answers\": [ { \"option\" : \"g\", \"message\": \"No, We're not gardeners\", \"correct\" : false }, { \"option\" : \"ss\", \"message\": \"Correct Answer\", \"correct\" : true }, { \"option\" : \"Sheltered Accommodation for the Elderly\", \"message\": \"No, No accommodation here!\", \"correct\" : false } ], \"answerText\": \"Aspen Grove builds Property Management Software Solutions\" }, { \"questionNumber\": 2, \"text\": \"Are you interested in a career with Aspen Grove?\", \"answers\": [ { \"option\" : \"y\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"n\", \"message\": \"OK, but...\", \"correct\" : false }, { \"option\" : \"I'm only here for the chocolate biscuits!\", \"message\": \"Have a sweet instead!\", \"correct\" : false } ], \"answerText\": \"This is a perfect opportunity to apply if you are interested\" }, { \"questionNumber\": 3, \"text\": \"What field are you interested in?\", \"answers\": [ { \"option\" : \"dev\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"ba\", \"message\": \"Excellent\", \"correct\" : true }, { \"option\" : \"qa\", \"message\": \"Excellent\", \"correct\" : true } ], \"answerText\": \"We are presently recruiting for Development, QA, BA, Infrastructure/Networking, DB, PM, Tech Lead, Tech Support\" }]";
             var questions = JsonConvert.DeserializeObject<Question[]>(json);
 
-            //var user = new UserResponse();
-            //user.UserId = 1;
+            var user = new UserResponse { UserId = 10 };
 
             foreach (var question in questions)
             {
@@ -41,7 +40,7 @@ namespace DbSQLite
                     if (response == answer.Option)
                     {
                         Console.WriteLine(answer.Message);
-                        FillQuizSystem.InsertToResponseOption(4, question.QuestionNumber, response);
+                        FillQuizSystem.InsertToResponseOption(user.UserId, question.QuestionNumber, response);
                     }    
                 }
 
@@ -49,7 +48,7 @@ namespace DbSQLite
                 Thread.Sleep(milliseconds);
             }
 
-            FillQuizSystem.SelectResponses(4);
+            FillQuizSystem.SelectResponses(10);
             // Console.WriteLine("\n\n" + json.text); // not a string must be a file.json or .js?
 
             Console.WriteLine("Press any key to exit");
@@ -82,7 +81,7 @@ namespace DbSQLite
 
     public class Option 
     {
-        public int questionNumber { get; set; } 
-        public string optionSelected { get; set; }
+        public int QuestionNumber { get; set; } 
+        public string OptionSelected { get; set; }
     }
 }
