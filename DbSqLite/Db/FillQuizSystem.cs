@@ -2,11 +2,11 @@
 using System.Data.SQLite;
 namespace DbSQLite.Db
 {
-    static class FillQuizSystem
+     class FillQuizSystem
     {
         public static void CreateUserResponseTable()
         {
-            const string sql = "create table UserResponse (userId int, name varchar(30), email varchar(40))";
+            const string sql = "create table UserResponse (userId INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(30), email varchar(40))";
             DbConnection.ConnectNonQuery(sql);
         }
 
@@ -16,9 +16,9 @@ namespace DbSQLite.Db
             DbConnection.ConnectNonQuery(sql);
         }
 
-        public static void InsertToUserResponse(int id, string name, string email)
+        public void InsertToUserResponse(string name, string email)
         {
-            var sql = "insert into UserResponse (userId, name, email) values (" + id + ", '" + name + "', '" + email + "')";
+            var sql = "insert into UserResponse (name, email) values (" + name + "', '" + email + "')";
             DbConnection.ConnectNonQuery(sql);
         }
         public static void InsertToResponseOption(int id, int number, string response)
@@ -27,24 +27,7 @@ namespace DbSQLite.Db
             DbConnection.ConnectNonQuery(sql);
         }
 
-        public static int GetNextId()
-        {
-            const string sql = "select max(userId) from UserResponse";
-            int nextId;
-            var dataReader = DbConnection.ConnectDatareader(sql);
-            dataReader.Read();
-            if (dataReader.IsDBNull(0))
-                nextId = 1;
-            else
-                nextId = Convert.ToInt32(dataReader.GetValue(0)) + 1;
-            DbConnection.ConnectClose();
-            return nextId;
-             
-            //var nextId = Convert.ToInt32(dataReader.Read());
-            //Console.WriteLine(nextId);
-            //DbConnection.ConnectClose();
-            //return nextId;
-        }
+        
 
         public static SQLiteDataReader SelectUserDetails(int id)
         {

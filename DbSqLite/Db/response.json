@@ -1,0 +1,26 @@
+{
+	"name": "Helen",
+	"email": "h@gmail.com",
+	"answers": [
+		{
+			"questionNumber":1,
+			"option": "Gardening"
+		},
+		{
+			"questionNumber":2,
+			"option": "I'm not sure"
+		},
+		{
+			"questionNumber":3,
+			"option": "Yes"
+		},
+		{
+			"questionNumber":4,
+			"option": "Writing Code"
+		},
+		{
+			"questionNumber":5,
+			"option": "Many"
+		}
+	]
+}
