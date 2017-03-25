@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbSqLite", "DbSqLite\DbSqLite.csproj", "{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryResults", "DbSqLite\QueryResults.csproj", "{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApi", "QuizApi\QuizApi.csproj", "{CB7E0797-E5CE-4CB4-91F9-9F09EC7F4A4A}"
 EndProject
