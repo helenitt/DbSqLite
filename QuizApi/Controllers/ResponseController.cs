@@ -18,8 +18,8 @@ namespace QuizApi.Controllers
         // POST api/response
         public IHttpActionResult Post([FromBody]UserResponse userResponse)
         {
-            var userResponseEntity = new UserResponseEntity {Name = userResponse.Name, Email = userResponse.Email};
-            _repo.Save(userResponseEntity);
+            var userResponseEntity = new UserResponseEntity { Name = userResponse.Name, Email = userResponse.Email };
+            _repo.SaveUser(userResponseEntity);
 
             return StatusCode(HttpStatusCode.NoContent);
         }

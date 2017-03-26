@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryResults", "DbSqLite\QueryResults.csproj", "{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApi", "QuizApi\QuizApi.csproj", "{CB7E0797-E5CE-4CB4-91F9-9F09EC7F4A4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{DE5CA002-937B-4BDE-827E-A92718C0263A}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{D725DE7A-896C-4A98-A714-02C31486BC41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryResults", "QueryResults\QueryResults.csproj", "{BEF48413-4BC9-493E-B4C0-0D827628330B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D6EBB76-021B-45D2-AC71-C2F5DA79E978}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB7E0797-E5CE-4CB4-91F9-9F09EC7F4A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB7E0797-E5CE-4CB4-91F9-9F09EC7F4A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB7E0797-E5CE-4CB4-91F9-9F09EC7F4A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{D725DE7A-896C-4A98-A714-02C31486BC41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D725DE7A-896C-4A98-A714-02C31486BC41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D725DE7A-896C-4A98-A714-02C31486BC41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEF48413-4BC9-493E-B4C0-0D827628330B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEF48413-4BC9-493E-B4C0-0D827628330B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEF48413-4BC9-493E-B4C0-0D827628330B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEF48413-4BC9-493E-B4C0-0D827628330B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

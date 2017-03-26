@@ -4,6 +4,6 @@ namespace DataAccessLayer
 {
     public interface IRepository
     {
-        void Save(UserResponseEntity userResponse);
+        void SaveUser(UserResponseEntity userResponse);
     }
 }
