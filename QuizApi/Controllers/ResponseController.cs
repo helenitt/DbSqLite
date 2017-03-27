@@ -16,12 +16,21 @@ namespace QuizApi.Controllers
         }
    
         // POST api/response
-        public IHttpActionResult Post([FromBody]UserResponse userResponse)
+        public IHttpActionResult Post([FromBody]UserDetails userDetails) // UserDetail = dto should be (entity????)
         {
-            var userResponseEntity = new UserResponseEntity { Name = userResponse.Name, Email = userResponse.Email };
-            _repo.SaveUser(userResponseEntity);
+            
+
+            var userDetailsEntity = new UserDetailsEntity { Name = userDetails.Name, Email = userDetails.Email };
+            _repo.SaveUser(userDetailsEntity);
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // GET api/response
+        public IHttpActionResult Get()
+        {
+            var userDetails = _repo.GetUserDetails();
+            return Ok(userDetails);
         }
     }
 

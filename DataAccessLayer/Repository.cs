@@ -1,26 +1,32 @@
-﻿using Entities;
+﻿using System;
+using System.Collections.Generic;
+using Entities;
 using System.Data.SQLite;
+using System.IO;
 
 namespace DataAccessLayer
 {
     public class Repository : IRepository
     {
-        public void CreateUserDetailsTable()
+        DbConnect dbConnect;
+
+        public Repository()
         {
-            var sql = "CREATE TABLE UserDetails (userId INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(30), email varchar(50))";
-            DbConnection.ConnectNonQuery(sql);
+            dbConnect = new DbConnect();
+            
         }
 
-        public void SaveUser(UserResponseEntity userResponse)
+        public void SaveUser(UserDetailsEntity userDetails)
         {
-            var sql = "INSERT INTO UserDetails (name, email) VALUES ('" + userResponse.Name + "', '" + userResponse.Email + "')";
-            DbConnection.ConnectNonQuery(sql);
+            var sql = "INSERT INTO UserDetails (name, email) VALUES ('" + userDetails.Name + "', '" + userDetails.Email + "')";
+            dbConnect.Execute(sql);
         }
 
-        public SQLiteDataReader SelectUsers()
+        public IEnumerable<UserDetailsEntity> GetUserDetails()
         {
             var sql = "SELECT * FROM UserDetails";
-            return DbConnection.ConnectDatareader(sql);
+            var allUsersDetails = dbConnect.Query<UserDetailsEntity>(sql);
+            return allUsersDetails;
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿
-using DataAccessLayer;
-
-namespace QueryResults
+﻿namespace QueryResults
 {
     class Program
     {
