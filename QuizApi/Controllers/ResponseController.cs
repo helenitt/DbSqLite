@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Web.Http;
 using DataAccessLayer;
 using Entities;
@@ -16,11 +18,19 @@ namespace QuizApi.Controllers
         }
    
         // POST api/response
-        public IHttpActionResult Post([FromBody]UserDetails userDetails) // UserDetail = dto should be (entity????)
+        public IHttpActionResult Post([FromBody]UserDetails userDetails)
         {
-            
+            var isStudent = (userDetails.IsStudent == false) ? 0 : 1;
+            var hasBusinessBackground = (userDetails.HasBusinessBackground == false) ? 0 : 1;
+            var hasTechnicalBackground = (userDetails.HasTechnicalBackground == false) ? 0 : 1;
 
-            var userDetailsEntity = new UserDetailsEntity { Name = userDetails.Name, Email = userDetails.Email };
+            var userDetailsEntity = new UserDetailsEntity { Name = userDetails.Name, 
+                                                            Email = userDetails.Email,
+                                                            IsStudent = isStudent,
+                                                            HasBusinessBackground = hasBusinessBackground,
+                                                            HasTechnicalBackground = hasTechnicalBackground,
+                                                            YearsExperience = userDetails.YearsExperience
+                                                            };
             _repo.SaveUser(userDetailsEntity);
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -29,9 +39,27 @@ namespace QuizApi.Controllers
         // GET api/response
         public IHttpActionResult Get()
         {
-            var userDetails = _repo.GetUserDetails();
+            var userDetailsEntities = _repo.GetUserDetails();
+
+            var userDetails = userDetailsEntities.Select(entity =>
+            {
+                var isStudent = (entity.IsStudent == 0) ? false : true;
+                var hasBusinessBackground = (entity.HasBusinessBackground == 0) ? false : true;
+                var hasTechnicalBackground = (entity.HasTechnicalBackground == 0) ? false : true; 
+                
+                var userDetail = new UserDetails
+                {
+                    Name = entity.Name, 
+                                                   Email = entity.Email,
+                                                   IsStudent = isStudent,
+                                                   HasBusinessBackground = hasBusinessBackground,
+                                                   HasTechnicalBackground = hasTechnicalBackground,
+                                                   YearsExperience = entity.YearsExperience
+                                                   };
+                return userDetail;
+            });
+
             return Ok(userDetails);
         }
     }
-
 }
