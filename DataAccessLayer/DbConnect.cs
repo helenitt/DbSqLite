@@ -24,6 +24,9 @@ namespace DataAccessLayer
             if (File.Exists(_filePath)) return;
             SQLiteConnection.CreateFile( _filePath);
             CreateUserDetailsTable();
+            CreateQuestionsTable();
+            CreateOptionsTable();
+            CreateUserResponseOptions();
         }
 
         private void CreateUserDetailsTable()
@@ -37,6 +40,38 @@ namespace DataAccessLayer
                                ", hasTechnicalBackground INTEGER Default 0" +
                                ", yearsExperience INTEGER)";
             Execute(sql);
+        }
+
+        private void CreateUserResponseOptions()
+        {
+            const string sql = "CREATE TABLE UserResponseOptions (" +
+                               "  userResponseOptionId INTEGER PRIMARY KEY AUTOINCREMENT" +
+                               ", userId INTEGER" +
+                               ", optionId INTEGER" +
+                               ", FOREIGN KEY(userId) REFERENCES UserDetails(userId)" +
+                               ", FOREIGN KEY(optionId) REFERENCES Options(optionId))";
+            Execute(sql);
+        }
+
+        private void CreateOptionsTable()
+        {
+            const string sql = "CREATE TABLE Options (" +
+                               "  optionId INTEGER PRIMARY KEY AUTOINCREMENT" +
+                               ", optionText TEXT" +
+                               ", questionId INTEGER" +
+                               ", FOREIGN KEY(questionId) REFERENCES Questions(questionId))";
+            Execute(sql);
+        }
+
+        private void CreateQuestionsTable()
+        {
+            string sql = "CREATE TABLE Questions (questionId INTEGER PRIMARY KEY)";
+            Execute(sql);
+            for (var i = 0; i < 4; i++)
+            {
+                sql = "INSERT INTO Questions (questionId) VALUES (" + i + ")";
+                Execute(sql);
+            }
         }
 
         public void Execute(string sql)

@@ -14,12 +14,20 @@ namespace DataAccessLayer
 
         public void SaveUser(UserDetailsEntity userDetails)
         {
-            var sql = "INSERT INTO UserDetails (name, email, isStudent, hasBusinessBackground, hasTechnicalBackground, yearsExperience) " +
+            var sql = "INSERT INTO UserDetails (name, email, isStudent, hasBusinessBackground, hasTechnicalBackground, yearsExperience)" +
                       "VALUES ('" + userDetails.Name + "', '" + userDetails.Email + "', '" + userDetails.IsStudent +
                       "', '" + userDetails.HasBusinessBackground + "', '" + userDetails.HasTechnicalBackground +
                        "', '" + userDetails.YearsExperience + "')";
             _dbConnect.Execute(sql);
         }
+
+        //public void SaveUserResponseOptions(UserResponseOptionEntity userOptions, UserDetailsEntity userDetails)
+        //{
+        //    var sql = "INSERT INTO UserResponseOptions (questionNumber, optionSelected, userId)" +
+        //              "VALUES (" + userOptions.QuestionNumber + ", '" + userOptions.OptionSelected +
+        //              ", '" + userDetails.UserDetailsId + "')";
+        //    _dbConnect.Execute(sql);
+        //}
 
         public IEnumerable<UserDetailsEntity> GetUserDetails()
         {

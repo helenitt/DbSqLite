@@ -43,8 +43,8 @@ namespace QuizApi.Controllers
 
             var userDetails = userDetailsEntities.Select(entity =>
             {
-                var isStudent = (entity.IsStudent == 0) ? false : true;
-                var hasBusinessBackground = (entity.HasBusinessBackground == 0) ? false : true;
+                var isStudent = entity.IsStudent != 0;
+                var hasBusinessBackground = (entity.HasBusinessBackground != 0);
                 var hasTechnicalBackground = (entity.HasTechnicalBackground == 0) ? false : true; 
                 
                 var userDetail = new UserDetails
