@@ -1,4 +1,6 @@
-﻿namespace Models
+﻿using System.Collections.Generic;
+
+namespace Models
 {
     public class UserDetails
     {
@@ -8,5 +10,6 @@
         public bool HasBusinessBackground { set; get; }
         public bool HasTechnicalBackground { set; get; }
         public int YearsExperience { set; get; }
+        public IEnumerable<Answer> Answers { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Models;
 
 namespace DataAccessLayer
 {
@@ -19,6 +20,36 @@ namespace DataAccessLayer
                       "', '" + userDetails.HasBusinessBackground + "', '" + userDetails.HasTechnicalBackground +
                        "', '" + userDetails.YearsExperience + "')";
             _dbConnect.Execute(sql);
+        }
+
+        // Look up ref Table Questions
+        // Save to Options
+        // Save to UserResponseOptions
+
+        public void SaveUserResponseOption(UserDetailsEntity userDetails)
+        {
+            // Look up ref Table Questions
+            var questNumber = CheckQuestionNumber(userDetails.Answers.QuestionNumber);
+            // Save to Options
+            var id = SaveOptions(userDetails, questNumber);
+            // Save to UserResponseOptions ---- DON'T THINK USERID HAS BEEN BROUGHT BACK YET
+            var sql = "INSERT INTO UserResponseOptions (userId, OptionId) VALUES (" + userDetails.UserDetailsId + ", " + id + ")";
+        }
+
+        // HERE
+        public int SaveOptions(UserDetailsEntity userDetails, int questNumber)
+        {
+            var sql = "INSERT INTO Options (optionText, questionId) VALUES ('" + userDetails.Answers.Option + "', " + questNumber + ")";
+            Execute(sql);
+            sql = "SELECT MAX(optionId) FROM Options";
+            return Query<TEntity>(sql);
+        }
+
+        //HERE
+        public int CheckQuestionNumber(int questNumber)
+        {
+            var sql = "SELECT questionNumber FROM Questions WHERE " + questNumber + " = questionNumber";
+            return Query<TEntity>(sql);
         }
 
         public IEnumerable<UserDetailsEntity> GetUserDetails()
