@@ -2,9 +2,8 @@
 {
     public class UserResponseOptionEntity
     {
+        public int    UserResponseOptionId { get; set; }
         public int    OptionId { get; set; }
-        public int    QuestionNumber { get; set; }
-        public string OptionSelected { get; set; }
-        public int    UserId { get; set; }
+        public int    UserDetailsId { get; set; }
     }
 }

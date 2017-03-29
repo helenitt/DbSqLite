@@ -24,14 +24,18 @@ namespace QuizApi.Controllers
             var hasBusinessBackground = (userDetails.HasBusinessBackground == false) ? 0 : 1;
             var hasTechnicalBackground = (userDetails.HasTechnicalBackground == false) ? 0 : 1;
 
-            var userDetailsEntity = new UserDetailsEntity { Name = userDetails.Name, 
-                                                            Email = userDetails.Email,
-                                                            IsStudent = isStudent,
-                                                            HasBusinessBackground = hasBusinessBackground,
-                                                            HasTechnicalBackground = hasTechnicalBackground,
-                                                            YearsExperience = userDetails.YearsExperience
-                                                            };
+            var userDetailsEntity = new UserDetailsEntity 
+            { 
+                Name = userDetails.Name, 
+                Email = userDetails.Email,
+                IsStudent = isStudent,
+                HasBusinessBackground = hasBusinessBackground,
+                HasTechnicalBackground = hasTechnicalBackground,
+                YearsExperience = userDetails.YearsExperience
+            };
+            
             _repo.SaveUser(userDetailsEntity);
+            _repo.SaveUserResponseOptions(userDetailsEntity);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -50,12 +54,12 @@ namespace QuizApi.Controllers
                 var userDetail = new UserDetails
                 {
                     Name = entity.Name, 
-                                                   Email = entity.Email,
-                                                   IsStudent = isStudent,
-                                                   HasBusinessBackground = hasBusinessBackground,
-                                                   HasTechnicalBackground = hasTechnicalBackground,
-                                                   YearsExperience = entity.YearsExperience
-                                                   };
+                    Email = entity.Email,
+                    IsStudent = isStudent,
+                    HasBusinessBackground = hasBusinessBackground,
+                    HasTechnicalBackground = hasTechnicalBackground,
+                    YearsExperience = entity.YearsExperience
+                    };
                 return userDetail;
             });
 

@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Entities;
+using Models;
 
 namespace DataAccessLayer
 {
     public class Repository : IRepository
     {
         readonly DbConnect _dbConnect;
+        readonly Answer _answer;
 
         public Repository()
         {
             _dbConnect = new DbConnect();
+            _answer = new Answer();  // Don't know if this is right
         }
 
         public void SaveUser(UserDetailsEntity userDetails)
@@ -21,13 +26,25 @@ namespace DataAccessLayer
             _dbConnect.Execute(sql);
         }
 
-        //public void SaveUserResponseOptions(UserResponseOptionEntity userOptions, UserDetailsEntity userDetails)
-        //{
-        //    var sql = "INSERT INTO UserResponseOptions (questionNumber, optionSelected, userId)" +
-        //              "VALUES (" + userOptions.QuestionNumber + ", '" + userOptions.OptionSelected +
-        //              ", '" + userDetails.UserDetailsId + "')";
-        //    _dbConnect.Execute(sql);
-        //}
+        public void SaveUserResponseOptions(UserDetailsEntity userDetails)
+        {
+            
+            // Save to Options
+           // var id = SaveOptions(userDetails, questNumber);
+            // Save to UserResponseOptions
+            var sql = "INSERT INTO UserResponseOptions (userId, optionId)" +
+                      "VALUES (" + userDetails.UserDetailsId + ", '" + _answer.Option + "')";
+            _dbConnect.Execute(sql);
+        }
+
+        private UserDetailsEntity SaveOptions(UserDetailsEntity userDetails, int questNumber)
+        {
+            var sql = "INSERT INTO Options (optionText, questionId) VALUES ('" + _answer.Option + "', " + questNumber + ")";
+            _dbConnect.Execute(sql);
+            sql = "SELECT MAX(optionId) FROM Options";
+            var userDetailsEntities = _dbConnect.Query<UserDetailsEntity>(sql);
+            return new UserDetailsEntity();
+        }
 
         public IEnumerable<UserDetailsEntity> GetUserDetails()
         {

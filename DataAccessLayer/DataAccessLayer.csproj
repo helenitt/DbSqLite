@@ -57,6 +57,10 @@
       <Project>{d725de7a-896c-4a98-a714-02c31486bc41}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{6556566A-FD2D-469B-B689-BE93B9D48FB0}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
