@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    public class UserDetails
+    public class UserResponseDto
     {
         public string Name { get; set; }
         public string Email { get; set; }
@@ -10,6 +10,6 @@ namespace Models
         public bool   HasBusinessBackground { get; set; }
         public bool   HasTechnicalBackground { get; set; }
         public int    YearsExperience { get; set; }
-        public IEnumerable<Answer> Answers { get; set; }
+        public IEnumerable<ResponseAnswerDto> ResponseAnswers { get; set; }
     }
 }

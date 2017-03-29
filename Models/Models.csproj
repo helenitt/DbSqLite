@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Answer.cs" />
-    <Compile Include="UserDetails.cs" />
+    <Compile Include="LoadAnswerDto.cs" />
+    <Compile Include="LoadQuestionDto.cs" />
+    <Compile Include="ResponseAnswerDto.cs" />
+    <Compile Include="UserResponseDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

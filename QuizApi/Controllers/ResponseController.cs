@@ -16,9 +16,12 @@ namespace QuizApi.Controllers
         {
             _repo = new Repository();
         }
+
+        // Method which on load will populate static content tables from json file
+        // on second thoughts it should be with db setup 
    
         // POST api/response
-        public IHttpActionResult Post([FromBody]UserDetails userDetails)
+        public IHttpActionResult Post([FromBody]UserResponseDto userDetails)
         {
             var isStudent = (userDetails.IsStudent == false) ? 0 : 1;
             var hasBusinessBackground = (userDetails.HasBusinessBackground == false) ? 0 : 1;
@@ -33,9 +36,10 @@ namespace QuizApi.Controllers
                 HasTechnicalBackground = hasTechnicalBackground,
                 YearsExperience = userDetails.YearsExperience
             };
-            
+
+            // todo: create the entity to save the answer
             _repo.SaveUser(userDetailsEntity);
-            _repo.SaveUserResponseOptions(userDetailsEntity);
+            //_repo.SaveUserResponseOptions(userResponseOptions);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -51,7 +55,7 @@ namespace QuizApi.Controllers
                 var hasBusinessBackground = (entity.HasBusinessBackground != 0);
                 var hasTechnicalBackground = (entity.HasTechnicalBackground == 0) ? false : true; 
                 
-                var userDetail = new UserDetails
+                var userDetail = new UserResponseDto
                 {
                     Name = entity.Name, 
                     Email = entity.Email,

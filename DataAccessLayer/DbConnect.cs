@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using Dapper;
+using Models;
+using Newtonsoft.Json;
 
 namespace DataAccessLayer
 {
     public class DbConnect
     {
-        private readonly string _filePath;
+        private string _filePath;
         private readonly string _connectionString; 
         
         public DbConnect()
@@ -27,6 +29,7 @@ namespace DataAccessLayer
             CreateQuestionsTable();
             CreateOptionsTable();
             CreateUserResponseOptions();
+            PopulateStaticTables();
         }
 
         private void CreateUserDetailsTable()
@@ -52,7 +55,7 @@ namespace DataAccessLayer
                                ", FOREIGN KEY(optionId) REFERENCES Options(optionId))";
             Execute(sql);
         }
-
+        // todo: Helen add the rest of the fields to these tables
         private void CreateOptionsTable()
         {
             const string sql = "CREATE TABLE Options (" +
@@ -65,20 +68,43 @@ namespace DataAccessLayer
 
         private void CreateQuestionsTable()
         {
-            string sql = "CREATE TABLE Questions (questionId INTEGER PRIMARY KEY)";
+            const string sql = "CREATE TABLE Questions (questionId INTEGER PRIMARY KEY)";
             Execute(sql);
-            for (var i = 0; i < 4; i++)
+        }
+
+        // Populate static tables, Options and Questions
+        private void PopulateStaticTables()
+        {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var filePath = Path.Combine(baseDirectory, "bin", "questions.json");
+            var fileContents = File.ReadAllText(filePath);
+
+            var questions = JsonConvert.DeserializeObject<LoadQuestionDto[]>(fileContents);
+            foreach (var question in questions)
             {
-                sql = "INSERT INTO Questions (questionId) VALUES (" + i + ")";
-                Execute(sql);
+                var sql = @"INSERT INTO Questions (questionId) VALUES (@QuestionNumber)";
+                Execute(sql, new { question.QuestionNumber });
+
+                foreach (var answer in question.Answers)
+                {
+                    sql = @"INSERT INTO Options (optionText, questionId) VALUES (@Option, @QuestionNumber)";
+                    Execute(sql, new { answer.Option, question.QuestionNumber });
+                }
             }
         }
 
-        public void Execute(string sql)
+        public void Execute(string sql, object parameters = null)
         {
             using (var connection = new SQLiteConnection( _connectionString))
             {
-                 connection.Execute(sql);
+                if (parameters != null)
+                {
+                    connection.Execute(sql, parameters);
+                }
+                else
+                {
+                    connection.Execute(sql);
+                }
             }
         }
 
@@ -89,5 +115,7 @@ namespace DataAccessLayer
                 return connection.Query<TEntity>(sql);
             }
         }
+
+
     }
 }

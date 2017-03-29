@@ -1,0 +1,86 @@
+[
+  {
+    "questionNumber": 1,
+    "text": "What do we do?",
+    "answers": [
+      {
+        "option": "Gardening",
+        "message": "No, We're not gardeners",
+        "correct": false
+      },
+      {
+        "option": "Software Solutions",
+        "message": "Correct Answer",
+        "correct": true
+      },
+      {
+        "option": "Sheltered Accommodation for the Elderly",
+        "message": "No, No accommodation here!",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "questionNumber": 2,
+    "text": "What products do we produce?",
+    "answers": [
+      {
+        "option": "I'm not sure",
+        "message": "That's OK",
+        "correct": false
+      },
+      {
+        "option": "No idea",
+        "message": "Not to worry",
+        "correct": false
+      },
+      {
+        "option": "Something to do with property?",
+        "message": "You've hit the nail on the head!",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "questionNumber": 4,
+    "text": "What job area are you interested in?",
+    "answers": [
+      {
+        "option": "Manage and interact with people (business)",
+        "message": "OK",
+        "correct": false
+      },
+      {
+        "option": "Creating and maintaining software solutions (writing code)",
+        "message": "Excellent",
+        "correct": true
+      },
+      {
+        "option": "Visiting Granny (none of the above)",
+        "message": "OK",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "questionNumber": 5,
+    "text": "What technologies and languages do you think we use?",
+    "answers": [
+      {
+        "option": "Inter Galactic Messenger",
+        "message": "No, not yet but...",
+        "correct": false
+      },
+      {
+        "option": "Many",
+        "message": "The list is long, but to name just a few...",
+        "correct": true
+      },
+      {
+        "option": "Inter-species communication",
+        "message": "No, There's no talking to the animals here!",
+        "correct": false
+      }
+    ]
+  }
+]
