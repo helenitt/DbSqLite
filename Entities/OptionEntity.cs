@@ -1,7 +1,7 @@
 ﻿
 namespace Entities
 {
-    class OptionEntity
+    public class OptionEntity
     {
         public int OpotionId { get; set; }
         public string OptionText { get; set; }

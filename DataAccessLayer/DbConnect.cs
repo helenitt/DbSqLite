@@ -49,8 +49,8 @@ namespace DataAccessLayer
         {
             const string sql = "CREATE TABLE UserResponseOptions (" +
                                "  userResponseOptionId INTEGER PRIMARY KEY AUTOINCREMENT" +
-                               ", userId INTEGER" +
-                               ", optionId INTEGER" +
+                               ", userId INTEGER NOT NULL" +
+                               ", optionId INTEGER NOT NULL" +
                                ", FOREIGN KEY(userId) REFERENCES UserDetails(userId)" +
                                ", FOREIGN KEY(optionId) REFERENCES Options(optionId))";
             Execute(sql);
@@ -61,7 +61,7 @@ namespace DataAccessLayer
             const string sql = "CREATE TABLE Options (" +
                                "  optionId INTEGER PRIMARY KEY AUTOINCREMENT" +
                                ", optionText TEXT" +
-                               ", questionId INTEGER" +
+                               ", questionId INTEGER NOT NULL" +
                                ", FOREIGN KEY(questionId) REFERENCES Questions(questionId))";
             Execute(sql);
         }
@@ -116,6 +116,20 @@ namespace DataAccessLayer
             }
         }
 
+        public IEnumerable<TEntity> Query<TEntity>(string sql, object obj)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                return connection.Query<TEntity>(sql, obj);
+            }
+        }
 
+        public IEnumerable<dynamic> Query(string sql)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                return connection.Query(sql);
+            }
+        }
     }
 }

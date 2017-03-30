@@ -21,25 +21,36 @@ namespace QuizApi.Controllers
         // on second thoughts it should be with db setup 
    
         // POST api/response
-        public IHttpActionResult Post([FromBody]UserResponseDto userDetails)
+        public IHttpActionResult Post([FromBody]UserResponseDto userResponse)
         {
-            var isStudent = (userDetails.IsStudent == false) ? 0 : 1;
-            var hasBusinessBackground = (userDetails.HasBusinessBackground == false) ? 0 : 1;
-            var hasTechnicalBackground = (userDetails.HasTechnicalBackground == false) ? 0 : 1;
+            var isStudent = (userResponse.IsStudent == false) ? 0 : 1;
+            var hasBusinessBackground = (userResponse.HasBusinessBackground == false) ? 0 : 1;
+            var hasTechnicalBackground = (userResponse.HasTechnicalBackground == false) ? 0 : 1;
 
             var userDetailsEntity = new UserDetailsEntity 
             { 
-                Name = userDetails.Name, 
-                Email = userDetails.Email,
+                Name = userResponse.Name, 
+                Email = userResponse.Email,
                 IsStudent = isStudent,
                 HasBusinessBackground = hasBusinessBackground,
                 HasTechnicalBackground = hasTechnicalBackground,
-                YearsExperience = userDetails.YearsExperience
+                YearsExperience = userResponse.YearsExperience
             };
 
+            var userId = _repo.SaveUser(userDetailsEntity);
+
             // todo: create the entity to save the answer
-            _repo.SaveUser(userDetailsEntity);
-            //_repo.SaveUserResponseOptions(userResponseOptions);
+            foreach (var option in userResponse.Answers)
+            {
+                var optionEntity = new OptionEntity
+                {
+                    OptionText = option.Option,
+                    QuestionId = option.QuestionNumber
+                };
+                _repo.SaveUserResponseOptions(optionEntity, userId);
+            }
+            
+            
 
             return StatusCode(HttpStatusCode.NoContent);
         }

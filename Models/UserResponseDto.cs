@@ -10,6 +10,6 @@ namespace Models
         public bool   HasBusinessBackground { get; set; }
         public bool   HasTechnicalBackground { get; set; }
         public int    YearsExperience { get; set; }
-        public IEnumerable<ResponseAnswerDto> ResponseAnswers { get; set; }
+        public IEnumerable<ResponseAnswerDto> Answers { get; set; }
     }
 }

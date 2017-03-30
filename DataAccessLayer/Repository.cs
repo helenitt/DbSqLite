@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Entities;
 
 namespace DataAccessLayer
@@ -6,24 +8,27 @@ namespace DataAccessLayer
     public class Repository : IRepository
     {
         readonly DbConnect _dbConnect;
+        
 
         public Repository()
         {
             _dbConnect = new DbConnect();
         }
 
-        public void SaveUser(UserDetailsEntity userDetails)
+        public int SaveUser(UserDetailsEntity userDetails)
         {
-            const string sql = @"INSERT INTO UserDetails (name, email, isStudent, hasBusinessBackground, hasTechnicalBackground, yearsExperience)" +
-                               "VALUES (@Name, @Email, @IsStudent, @HasBusinessBackground, @HasTechnicalBackground,@YearsExperience)";
-            _dbConnect.Execute(sql, new { userDetails.Name, userDetails.Email, userDetails.IsStudent, userDetails.HasBusinessBackground, userDetails.HasTechnicalBackground, userDetails.YearsExperience });
+            var sql = @"INSERT INTO UserDetails (name, email, isStudent, hasBusinessBackground, hasTechnicalBackground, yearsExperience) " +
+                               "VALUES (@Name, @Email, @IsStudent, @HasBusinessBackground, @HasTechnicalBackground,@YearsExperience); " +
+                               "SELECT last_insert_rowid();";
+            var userIdReturned = _dbConnect.Query<int>(sql, userDetails).First();
+            return userIdReturned;
         }
-
-        public void SaveUserResponseOptions(UserResponseOptionEntity userDetails)
+        
+        public void SaveUserResponseOptions(OptionEntity option, int userId)
         {
-            var sql = "INSERT INTO UserResponseOptions (userId, optionId)" +
-                      "VALUES (" + userDetails.UserDetailsId + ", '" + userDetails.OptionId + "')";
-            _dbConnect.Execute(sql);
+            var sql = @"INSERT INTO UserResponseOptions (userId, optionId) " +
+                      " VALUES (@userId, (SELECT optionId FROM Options WHERE optionText = @OptionText AND questionId = @QuestionId))";
+            _dbConnect.Execute(sql, new { userId, option.OptionText, option.QuestionId });
         }
 
         public IEnumerable<UserDetailsEntity> GetUserDetails()

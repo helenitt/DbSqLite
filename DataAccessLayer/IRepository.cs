@@ -5,8 +5,8 @@ namespace DataAccessLayer
 {
     public interface IRepository
     {
-        void SaveUser(UserDetailsEntity userDetails);
-        void SaveUserResponseOptions(UserResponseOptionEntity userDetailsEntity);
+        int SaveUser(UserDetailsEntity userDetails);
+        void SaveUserResponseOptions(OptionEntity optionEntity, int userId);
         IEnumerable<UserDetailsEntity> GetUserDetails();
     }
 }
